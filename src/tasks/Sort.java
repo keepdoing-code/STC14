@@ -5,7 +5,7 @@ import java.util.Random;
 
 /**
  * @author stritron
- * Merge sorting algorithm
+ * Bubble sorting algorithm
  * @param arr - input array to sort
  */
 public class Sort {
@@ -37,8 +37,6 @@ public class Sort {
             if (sorted) return;
         }
     }
-
-
 
 
     public static void fillArray(final Object[] arr) {
