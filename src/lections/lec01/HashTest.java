@@ -1,8 +1,5 @@
-package ru.inno.lec01;
+package lections.lec01;
 
-/**
- * Created by yuri on 14.01.19.
- */
 public class HashTest {
 
     public static void main(String[] args) {
@@ -12,15 +9,8 @@ public class HashTest {
         String c = "";
         String d = "werty";
         Integer i = 1;
-        i.equals(i);
-        c.equals(d);
-
-
-        c.equals(d);
-
 
         System.out.println(Integer.toHexString(a.hashCode()) + "\n\n");
-
 
         System.out.println(a.equals(b));
         System.out.println(a.hashCode());

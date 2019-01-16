@@ -1,11 +1,9 @@
-package ru.inno.lec02;
+package lections.lec02;
 
 import java.util.Iterator;
 import java.util.function.Consumer;
 
-/**
- * Created by yuri on 15.01.19.
- */
+
 public class ArrayDemo {
     public static void main(String[] args) {
         int[] arr = new int[10];
@@ -14,8 +12,8 @@ public class ArrayDemo {
             System.out.println(i);
         }
 
-        for (int i = 0; i < arr.length; i++) {
-            System.out.println(arr[i]);
+        for (int anArr : arr) {
+            System.out.println(anArr);
         }
 
         MyArray myArray = new MyArray();
