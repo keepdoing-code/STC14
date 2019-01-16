@@ -4,8 +4,9 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * Author - yuri on 16.01.19.
+ * @author stritron
  * Merge sorting algorithm
+ * @param arr - input array to sort
  */
 public class Sort {
     public static void main(String[] args) {
@@ -17,16 +18,26 @@ public class Sort {
     }
 
     public static void bubbleSort(Integer[] arr) {
+        boolean sorted = false;
+        int count = 0;
+
         for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length - 1; j++) {
+            sorted = true;
+            for (int j = 0; j < arr.length - i - 1; j++) {
+
                 if(arr[j] > arr[j + 1]){
                     Integer a = arr[j + 1];
                     arr[j + 1] = arr[j];
                     arr[j] = a;
+                    sorted = false;
                 }
+                System.out.print(++count + " ");
+                System.out.println(Arrays.toString(arr));
             }
+            if (sorted) return;
         }
     }
+
 
 
 
@@ -38,6 +49,6 @@ public class Sort {
     }
 
     public static void printArray(final Object[] arr) {
-        System.out.println(Arrays.toString(arr));
+        System.out.println('\n' + Arrays.toString(arr) + '\n');
     }
 }
