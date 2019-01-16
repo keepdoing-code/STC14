@@ -1,4 +1,4 @@
-package ru.inno.ru.inno.task02;
+package tasks;
 
 import java.util.Arrays;
 import java.util.Random;
