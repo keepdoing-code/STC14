@@ -71,10 +71,14 @@ public class MathBox<T extends Number> {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (Object i : values) {
-            sb.append(i).append(", ");
+        StringBuilder sb = new StringBuilder("[");
+
+        Iterator<T> iterator = values.iterator();
+        while (iterator.hasNext()) {
+            sb.append(iterator.next());
+            sb.append(iterator.hasNext() ? ", " : "]");
         }
+
         return sb.toString();
     }
 }

@@ -1,7 +1,8 @@
 package tasks.task02_generic;
 
 /**
- * Created by yuri on 17.01.19.
+ * @author Lupandin Yuri
+ * @version 1.0
  */
 public class Value<T extends Number> {
     private T val = null;
@@ -20,24 +21,6 @@ public class Value<T extends Number> {
     public Value<T> setVal(T val) {
         this.val = val;
         return this;
-    }
-
-    public Value<T> divide(Value<T> d) {
-
-        Value<T> result = null;
-
-        switch (val.getClass().getName()) {
-            case "java.lang.Integer":
-                Integer anInteger = val.intValue() / d.getVal().intValue();
-                result = new Value<>((T) anInteger);
-                break;
-            case "java.lang.Double":
-                Double aDouble = val.doubleValue() / d.getVal().doubleValue();
-                result = new Value<>((T) aDouble);
-                break;
-        }
-
-        return result;
     }
 
     public Value<T> divideApart() {
