@@ -1,13 +1,14 @@
-package tasks;
+package tasks.task01_sorting;
 
 import java.util.Arrays;
 import java.util.Random;
 
 /**
- * @param arr - input array to sort
  * @author stritron
+ * @version 1.0
  *         Bubble sorting algorithm
  *         Quick sorting algorithm
+ * @param arr - input array to sort
  */
 public class Sort {
     public static void main(String[] args) {
