@@ -9,56 +9,40 @@ import java.util.TreeSet;
  * @version 1.0
  */
 public class MathBox<T extends Number> {
-    private Set<T> listInt = new TreeSet<T>();
+    private Set<T> values = new TreeSet<>();
 
     public MathBox(T[] arrInt) {
         for (T i : arrInt) {
-            listInt.add(i);
+            values.add(i);
         }
     }
 
     public T summator() {
-        T sum = null;
-        Iterator iterator = listInt.iterator();
+        Iterator<T> iterator = values.iterator();
+        Value<T> sum = new Value<>();
+
         while (iterator.hasNext()) {
-            sum = (T) iterator.next();
+            T val = iterator.next();
+            sum.add(val);
         }
-        return sum;
+
+        return sum.getVal();
     }
 
-    public Set splitter() {
-        Set result = new TreeSet();
-        Iterator iterator = listInt.iterator();
+    public Set<T> splitter() {
+        Set<T> result = new TreeSet<T>();
+        Iterator<T> iterator = values.iterator();
+
         while (iterator.hasNext()) {
-            T i = (T) iterator.next();
-            Object o;
-
-            switch (i.getClass().getName()) {
-                case "Integer":
-                    o = i.intValue() / 2;
-                    break;
-                case "Byte":
-                    o = i.byteValue() / 2;
-                    break;
-                case "Double":
-                    o = i.doubleValue() / 2.0;
-                    break;
-                case "Float":
-                    o = i.floatValue() / 2.0;
-                    break;
-                default:
-                    o = null;
-            }
-
-            i = (T) o;
-            result.add(i);
+            T val = iterator.next();
+            result.add(new Value<T>(val).divideApart().getVal());
         }
         return result;
     }
 
-    public void remove(Integer i) {
-        if (listInt.contains(i)) {
-            listInt.remove(i);
+    public void remove(T val) {
+        if (values.contains(val)) {
+            values.remove(val);
         }
     }
 
@@ -67,11 +51,11 @@ public class MathBox<T extends Number> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MathBox mathBox = (MathBox) o;
-        if (listInt.equals(mathBox.listInt)) return true;
-        if (listInt.size() != mathBox.listInt.size()) return false;
+        if (values.equals(mathBox.values)) return true;
+        if (values.size() != mathBox.values.size()) return false;
 
-        Iterator iterator = listInt.iterator();
-        Iterator iteratorAnother = mathBox.listInt.iterator();
+        Iterator iterator = values.iterator();
+        Iterator iteratorAnother = mathBox.values.iterator();
 
         while (iterator.hasNext()) {
             if (iterator.next() != iteratorAnother.next()) return false;
@@ -82,13 +66,13 @@ public class MathBox<T extends Number> {
 
     @Override
     public int hashCode() {
-        return listInt.hashCode();
+        return values.hashCode();
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Object i : listInt) {
+        for (Object i : values) {
             sb.append(i).append(", ");
         }
         return sb.toString();
