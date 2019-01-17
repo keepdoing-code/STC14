@@ -5,22 +5,23 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Created by yuri on 17.01.19.
+ * @author Lupandin Yuri
+ * @version 1.0
  */
-public class MathBox {
-    private Set listInt = new TreeSet();
+public class MathBox<T extends Number> {
+    private Set<T> listInt = new TreeSet<T>();
 
-    public MathBox(Integer[] arrInt) {
-        for (Integer i : arrInt) {
+    public MathBox(T[] arrInt) {
+        for (T i : arrInt) {
             listInt.add(i);
         }
     }
 
-    public Integer summator() {
-        Integer sum = 0;
+    public T summator() {
+        T sum = null;
         Iterator iterator = listInt.iterator();
         while (iterator.hasNext()) {
-            sum += (Integer) iterator.next();
+            sum = (T) iterator.next();
         }
         return sum;
     }
@@ -29,8 +30,27 @@ public class MathBox {
         Set result = new TreeSet();
         Iterator iterator = listInt.iterator();
         while (iterator.hasNext()) {
-            Integer i = (Integer) iterator.next();
-            i = i / 2;
+            T i = (T) iterator.next();
+            Object o;
+
+            switch (i.getClass().getName()) {
+                case "Integer":
+                    o = i.intValue() / 2;
+                    break;
+                case "Byte":
+                    o = i.byteValue() / 2;
+                    break;
+                case "Double":
+                    o = i.doubleValue() / 2.0;
+                    break;
+                case "Float":
+                    o = i.floatValue() / 2.0;
+                    break;
+                default:
+                    o = null;
+            }
+
+            i = (T) o;
             result.add(i);
         }
         return result;

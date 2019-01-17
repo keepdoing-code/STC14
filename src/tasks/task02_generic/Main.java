@@ -1,16 +1,17 @@
 package tasks.task02_generic;
 
 /**
- * Created by yuri on 17.01.19.
+ * @author Lupandin Yuri
+ * @version 1.0
  */
 public class Main {
     public static void main(String[] args) {
-        Integer arr[] = {8, 23, 4, 0};
+        Double arr[] = {8.0, 23.0, 4.0, 0.0};
 
-        MathBox mb = new MathBox(arr);
+        MathBox<Double> mb = new MathBox(arr);
         System.out.println(mb);
 
-        MathBox mb1 = new MathBox(new Integer[]{8, 23, 4, 0});
+        MathBox<Double> mb1 = new MathBox(new Double[]{8.0, 23.0, 4.0, 0.0, 1.0});
         System.out.println(mb1);
 
         System.out.println(mb.equals(mb1));
