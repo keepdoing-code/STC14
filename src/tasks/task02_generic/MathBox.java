@@ -1,5 +1,6 @@
 package tasks.task02_generic;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -8,7 +9,7 @@ import java.util.TreeSet;
  * @author Lupandin Yuri
  * @version 1.0
  */
-public class MathBox<T extends Number> {
+public class MathBox<T extends Number> extends ObjectBox {
     private Set<T> values = new TreeSet<>();
 
     public MathBox(T[] arrInt) {
@@ -19,13 +20,13 @@ public class MathBox<T extends Number> {
 
     public T summator() {
         Iterator<T> iterator = values.iterator();
-        Number sum = iterator.hasNext() ? iterator.next() : null;
+        BigDecimal big = BigDecimal.ZERO;
 
         while (iterator.hasNext()) {
             T val = iterator.next();
-            sum = NumberWorker.getType(val).amount(sum, val);
+            big = big.add(new BigDecimal(val.toString()));
         }
-        return (T) sum;
+        return (T) big;
     }
 
     public Set<T> splitter() {
@@ -34,7 +35,11 @@ public class MathBox<T extends Number> {
 
         while (iterator.hasNext()) {
             T val = iterator.next();
-            val = (T) NumberWorker.getType(val).div(val);
+
+            BigDecimal big = new BigDecimal(val.toString()).divide(new BigDecimal(2));
+
+            val = (T) big;
+
             result.add(val);
         }
         return result;

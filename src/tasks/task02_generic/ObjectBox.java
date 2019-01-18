@@ -1,29 +1,33 @@
 package tasks.task02_generic;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * @author Lupandin Yuri
  * @version 1.0
  */
-public class ObjectBox {
-    private List list = new ArrayList();
 
-    public void addObject(Object o) {
-        list.add(o);
+public class ObjectBox<T> {
+    private Collection<T> values;
+
+    public void addObject(T o) {
+        values.add(o);
     }
 
-    public void deleteObject(Object o) {
-        if (list.contains(o)) {
-            list.remove(o);
+    public void deleteObject(T o) {
+        if (values.contains(o)) {
+            values.remove(o);
         }
     }
 
     public String dump() {
-        StringBuilder sb = new StringBuilder();
-        for (Object o : list) {
-            sb.append(o).append(" ");
+        StringBuilder sb = new StringBuilder("[");
+
+        Iterator<T> iterator = values.iterator();
+        while (iterator.hasNext()) {
+            sb.append(iterator.next());
+            sb.append(iterator.hasNext() ? ", " : "]");
         }
         return sb.toString();
     }
