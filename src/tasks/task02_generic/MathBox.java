@@ -19,14 +19,13 @@ public class MathBox<T extends Number> {
 
     public T summator() {
         Iterator<T> iterator = values.iterator();
-        Value<T> sum = new Value<>();
+        Number sum = iterator.hasNext() ? iterator.next() : null;
 
         while (iterator.hasNext()) {
             T val = iterator.next();
-            sum.add(val);
+            sum = NumberWorker.getType(val).amount(sum, val);
         }
-
-        return sum.getVal();
+        return (T) sum;
     }
 
     public Set<T> splitter() {
@@ -35,7 +34,8 @@ public class MathBox<T extends Number> {
 
         while (iterator.hasNext()) {
             T val = iterator.next();
-            result.add(new Value<T>(val).divideApart().getVal());
+            val = (T) NumberWorker.getType(val).div(val);
+            result.add(val);
         }
         return result;
     }
@@ -49,10 +49,20 @@ public class MathBox<T extends Number> {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         MathBox mathBox = (MathBox) o;
-        if (values.equals(mathBox.values)) return true;
-        if (values.size() != mathBox.values.size()) return false;
+
+        if (values.equals(mathBox.values)) {
+            return true;
+        }
+
+        if (values.size() != mathBox.values.size()) {
+            return false;
+        }
 
         Iterator iterator = values.iterator();
         Iterator iteratorAnother = mathBox.values.iterator();

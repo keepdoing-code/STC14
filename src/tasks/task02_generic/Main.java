@@ -16,7 +16,5 @@ public class Main {
         System.out.println(mb);
 
         System.out.println(mb.summator());
-
-
     }
 }
