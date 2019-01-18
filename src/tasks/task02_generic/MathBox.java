@@ -10,39 +10,42 @@ import java.util.TreeSet;
  * @version 1.0
  */
 public class MathBox<T extends Number> extends ObjectBox {
-    private Set<T> values = new TreeSet<>();
+
 
     public MathBox(T[] arrInt) {
+        values = new TreeSet<>();
+
         for (T i : arrInt) {
             values.add(i);
         }
     }
 
     public T summator() {
-        Iterator<T> iterator = values.iterator();
+        Iterator<Number> iterator = values.iterator();
         BigDecimal big = BigDecimal.ZERO;
 
         while (iterator.hasNext()) {
-            T val = iterator.next();
-            big = big.add(new BigDecimal(val.toString()));
+            big = big.add(new BigDecimal(iterator.next().toString()));
         }
         return (T) big;
     }
 
     public Set<T> splitter() {
-        Set<T> result = new TreeSet<T>();
+        Set<T> result = new TreeSet<>();
         Iterator<T> iterator = values.iterator();
 
         while (iterator.hasNext()) {
-            T val = iterator.next();
+            Number big = resolve(iterator.next());
 
-            BigDecimal big = new BigDecimal(val.toString()).divide(new BigDecimal(2));
+            big = new BigDecimal(big.toString()).divide(new BigDecimal(2));
 
-            val = (T) big;
-
-            result.add(val);
+            result.add((T) big);
         }
         return result;
+    }
+
+    private Number resolve(T number) {
+        return number;
     }
 
     public void remove(T val) {
@@ -96,4 +99,15 @@ public class MathBox<T extends Number> extends ObjectBox {
 
         return sb.toString();
     }
+
+    @Override
+    public void addObject(Object o) throws NotNumberException {
+        if (!(o instanceof Number)) {
+            throw new NotNumberException();
+        }
+        values.add(o);
+    }
+}
+
+class NotNumberException extends Exception {
 }

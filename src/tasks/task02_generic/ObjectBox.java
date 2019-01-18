@@ -1,5 +1,6 @@
 package tasks.task02_generic;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -9,9 +10,9 @@ import java.util.Iterator;
  */
 
 public class ObjectBox<T> {
-    private Collection<T> values;
+    protected Collection<T> values = new ArrayList<>();
 
-    public void addObject(T o) {
+    public void addObject(T o) throws Exception {
         values.add(o);
     }
 
