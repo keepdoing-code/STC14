@@ -9,14 +9,14 @@ import java.util.Iterator;
  * @version 1.0
  */
 
-public class ObjectBox<T> {
-    protected Collection<T> values = new ArrayList<>();
+public class ObjectBox {
+    protected Collection values = new ArrayList<>();
 
-    public void addObject(T o) {
+    public void addObject(Object o) throws Exception {
         values.add(o);
     }
 
-    public void deleteObject(T o) {
+    public void deleteObject(Object o) {
         if (values.contains(o)) {
             values.remove(o);
         }
