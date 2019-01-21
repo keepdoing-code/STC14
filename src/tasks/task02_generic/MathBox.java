@@ -46,7 +46,7 @@ public class MathBox<T extends Number> extends ObjectBox<T> {
         if (obj == null || getClass() != obj.getClass()) return false;
 
         MathBox<T> that = (MathBox) obj;
-        if (values.size() != that.values.size()) return false;
+        if (that.hashCode() != this.hashCode()) return false;
 
         Iterator iterator = values.iterator();
         Iterator iteratorAnother = that.values.iterator();
