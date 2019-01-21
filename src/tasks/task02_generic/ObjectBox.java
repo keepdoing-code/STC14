@@ -12,7 +12,7 @@ import java.util.Iterator;
 public class ObjectBox<T> {
     protected Collection<T> values = new ArrayList<>();
 
-    public void addObject(T o) throws Exception {
+    public void addObject(T o) {
         values.add(o);
     }
 
@@ -24,8 +24,8 @@ public class ObjectBox<T> {
 
     public String dump() {
         StringBuilder sb = new StringBuilder("[");
+        Iterator iterator = values.iterator();
 
-        Iterator<T> iterator = values.iterator();
         while (iterator.hasNext()) {
             sb.append(iterator.next());
             sb.append(iterator.hasNext() ? ", " : "]");

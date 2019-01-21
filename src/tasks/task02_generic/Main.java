@@ -1,32 +1,30 @@
 package tasks.task02_generic;
 
-import java.util.Set;
-
 /**
  * @author Lupandin Yuri
  * @version 1.0
  */
 public class Main {
     public static void main(String[] args) {
-        Integer arrInt[] = {8, 23, 4, 0};
-        Double arrDbl[] = {1.0, 6.3, 3.4, 0.0};
-        MathBox<Double> mb = new MathBox<>(arrDbl);
+        Integer[] intArray = {0, 4, 2, 7, 1, 1};
+        Double[] dblArray = {10d, 5d, 0d, 45d, 45d};
 
-        Set list = mb.splitter();
-        for (Object o : list) {
-            System.out.println(o.getClass().getSimpleName());
-        }
+        MathBox<Integer> box = new MathBox<>(intArray);
+        System.out.println(box.hashCode());
+        System.out.println(box.toString());
+        System.out.println(box.splitter().toString());
+        System.out.println(box.amount());
+        box.deleteObject(0);
+        box.addObject(456);
+        System.out.println(box.toString());
 
+        System.out.println();
 
-        System.out.println("source: " + mb);
-        try {
-            mb.addObject(3.5);
-        } catch (NotNumberException e) {
-            e.printStackTrace();
-        }
-        System.out.println("divided: " + mb.splitter());
-        System.out.println("sum: " + mb.summator());
-
+        MathBox<Double> boxd = new MathBox<>(dblArray);
+        System.out.println(boxd.hashCode());
+        System.out.println(boxd);
+        System.out.println(boxd.splitter().toString());
+        System.out.println(boxd.amount());
     }
 
 }
