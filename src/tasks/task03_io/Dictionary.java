@@ -1,6 +1,7 @@
 package tasks.task03_io;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -14,10 +15,13 @@ public class Dictionary {
     private Set<String> dictionarySet;
     private String[] dictionaryString;
     private IWordGenerator generator;
+    private int probability;
 
-    public Dictionary(int numberOfWords, IWordGenerator generator) {
+    public Dictionary(int probability, int numberOfWords, IWordGenerator generator) {
         this.size = numberOfWords;
         this.generator = generator;
+        this.probability = probability;
+        generate();
     }
 
 
@@ -38,9 +42,16 @@ public class Dictionary {
     }
 
 
-    public String getRandomWord(int probability) {
-        int rnd = (int) (Math.random() * (1.0 / probability) * dictionarySet.size());
+    public String getRandomWord() {
+        int rnd = (int) (new Random().nextDouble() * (1.0 / probability) * dictionarySet.size());
         return dictionaryString[rnd];
+    }
+
+
+    public String getCapitalWord() {
+        String str = getRandomWord();
+        return str.toUpperCase().charAt(0) + str.substring(1);
+
     }
 
 

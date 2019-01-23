@@ -7,14 +7,18 @@ package tasks.task03_io;
  * @version 1.0
  */
 public class Main {
-    private static final String PATH = "";
+    private static final String PATH = "./text_files";
     private static final int NUMBER_OF_FILES = 10;
-    private static final int PROBABILITY = 5;
     private static final int SIZE = 40;
+    private static final int PROBABILITY = 10;
+    private static final int NUMBER_OF_WORDS = 1000;
+
 
     public static void main(String[] args) {
-
-//        FileGenerator.getFiles(PATH, NUMBER_OF_FILES, SIZE, dictionary, PROBABILITY);
+        Dictionary dictionary = new Dictionary(PROBABILITY, NUMBER_OF_WORDS, new WordGenerator());
+        TextGenerator text = new TextGenerator(dictionary);
+        FileGenerator fileGen = new FileGenerator(text);
+        fileGen.getFiles(PATH, NUMBER_OF_FILES, SIZE);
     }
 }
 

@@ -1,84 +1,61 @@
 package tasks.task03_io;
 
+import java.util.Random;
+
 /**
  * Created on 18.01.19.
  *
  * @author Yuri Lupandin
  * @version 1.0
  */
-public class TextGenerator implements IWordGenerator {
-    private static final char[] ender = new char[]{'!', '?', '.'};
+public class TextGenerator {
+    private final int RANDOM_SENTENCE_COUNT = 20;
+    private final int RANDOM_WORD_COUNT = 15;
+    private final String[] LINE_END = {"! ", "? ", ". "};
+    private final String[] COMMA = {" ", ", "};
     private StringBuilder text;
+    private Random rnd = new Random();
+    private Dictionary dictionary;
 
-    public static String genParagraph(int number) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < genRandom(number); i++) {
-            sb.append(genSentence(15));
-        }
-        return sb.append("\r\n").toString();
+
+    public TextGenerator(Dictionary dictionary) {
+        this.dictionary = dictionary;
     }
 
-    public static String genSentence(int number) {
-        StringBuilder sb = new StringBuilder();
-        int counter = 1;
-        int rnd = genRandom(number);
-        sb.append(genWord(true));
-        sb.append(counter == rnd ? genEnder() : genComma());
 
-        while (++counter <= rnd) {
-            sb.append(genWord(false));
-            sb.append(counter == rnd ? genEnder() : genComma());
-        }
-
-        return sb.toString();
-    }
-
-    public static String genWord(boolean capitalChar) {
-        StringBuilder sb = new StringBuilder();
-        int counter = 1;
-        int rnd = genRandom(wordSize);
-        sb.append(genChar(capitalChar));
-
-        while (counter++ < rnd) {
-            sb.append(genChar(false));
-        }
-        return sb.toString();
-    }
-
-    public static char genChar(boolean capital) {
-        return capital ?
-                (char) (Math.random() * ('Z' - 'A') + 'A') :
-                (char) (Math.random() * ('z' - 'a') + 'a');
-    }
-
-    public static String genComma() {
-        return genRandom(2) == 1 ? ", " : " ";
-    }
-
-    public static String genEnder() {
-        return ender[genRandom(3) - 1] + " ";
-    }
-
-    public static int genRandom(int count) {
-        return (int) (Math.random() * count + 1);
-    }
-
-    @Override
-    public String generateWord() {
-        return genWord(false);
-    }
-
-    public String getText() {
-        return text == null ? generate(20) : text.toString();
-    }
-
-    public String generate(int paragraphNumber) {
+    public String generateNew(int paragraphCount) {
         text = new StringBuilder();
-        for (int i = 0; i < genRandom(paragraphNumber); i++) {
-            text.append(genParagraph(20));
+        for (int i = 0; i < paragraphCount; i++) {
+            text.append(genParagraph(RANDOM_SENTENCE_COUNT));
         }
         return text.toString();
     }
 
 
+    public String genParagraph(int sentenceCount) {
+        StringBuilder sb = new StringBuilder();
+        int random = rnd.nextInt(sentenceCount) + 1;
+        for (int i = 0; i < random; i++) {
+            sb.append(genSentence(RANDOM_WORD_COUNT));
+        }
+        return sb.append("\r\n").toString();
+    }
+
+
+    public String genSentence(int wordCount) {
+        StringBuilder sb = new StringBuilder();
+        int counter = 0;
+        int random = rnd.nextInt(wordCount);
+
+        do {
+            sb.append(counter == 0 ? dictionary.getCapitalWord() : dictionary.getRandomWord());
+            sb.append(counter == random ? genPunctuation(LINE_END) : genPunctuation(COMMA));
+        } while (counter++ < random);
+        return sb.toString();
+    }
+
+
+    public String genPunctuation(String[] chars) {
+        return chars[new Random().nextInt(chars.length)];
+    }
 }

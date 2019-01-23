@@ -1,8 +1,8 @@
 package tasks.task03_io;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 /**
@@ -13,31 +13,33 @@ import java.io.IOException;
  */
 public class FileGenerator {
     private static final String FILENAME = "file.txt";
+    private TextGenerator textGen;
+    private File file;
 
-    public static void getFiles(String path, int number, int size, String[] words, int probability) {
-
+    public FileGenerator(TextGenerator textGen) {
+        this.textGen = textGen;
     }
 
-    public String readFile(String name) {
-        String str = "";
-        try (FileInputStream fi = new FileInputStream(name)) {
-            BufferedInputStream bufinp = new BufferedInputStream(fi);
-            byte[] buffer = new byte[fi.available()];
-            bufinp.read(buffer);
-            str = new String(buffer);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void getFiles(String path, int filesNumber, int fileSize) {
+        File filePath = new File(path);
+        if (!filePath.exists() && !filePath.mkdir()) {
+            System.out.println("IO Error occured. No files created.");
+            return; // TODO: 23.01.19 throw exception
         }
-        return str;
+
+        for (int i = 1; i <= filesNumber; i++) {
+            String data = textGen.generateNew(fileSize);
+            file = new File(path, "text_" + i + ".txt");
+            writeFile(file, data);
+        }
     }
 
-    public boolean writeFile(String name, String data) {
-        try (FileOutputStream fo = new FileOutputStream(name)) {
-            byte[] buffer = data.getBytes();
-            fo.write(buffer);
+
+    public boolean writeFile(File name, String data) {
+        try (BufferedWriter bufWriter = new BufferedWriter(new FileWriter(name))) {
+            bufWriter.write(data);
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
         }
         return true;
     }
