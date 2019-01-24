@@ -53,7 +53,7 @@ public class ResourceLoader {
 
             while ((symbol = reader.read()) != -1) {
                 if (symbol == '\r' || symbol == '\n') {
-                    continue;
+                    symbol = ' ';
                 }
                 sentence.append((char) symbol);
                 if ((symbol == '?') || (symbol == '.') || (symbol == '!')) {
