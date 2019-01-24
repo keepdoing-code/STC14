@@ -1,4 +1,4 @@
-package tasks.task04_concurrency;
+package tasks.task03_io;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,37 +7,43 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 /**
+ * ONLY FOR TESTING
  * Created on 23.01.19.
  *
  * @author Yuri Lupandin
  * @version 1.0
  */
-public class SourceReader {
+public class BooksReader {
     private String textUrl = "http://www.gutenberg.org/files/12345/12345.txt";
     private String urlTemplate = "http://www.gutenberg.org/files/";
-    private String regexSentense = "[A-Z]{1}[\\w\\d\\s\\-\\,]+[\\.\\!]{1}";
+    private String regexSentense = "[A-Z][\\w\\d\\s-,]+[.!?]";
 
-    public SourceReader(String textUrl) {
+    public BooksReader(String textUrl) {
         this.textUrl = textUrl;
     }
 
-
-    public SourceReader() {
+    public BooksReader() {
     }
+
 
     public static void main(String[] args) throws MalformedURLException {
-        System.out.println(new SourceReader().getTextV1());
+        System.out.println(new BooksReader().getTextV2());
     }
+
 
     public String getTextV2() throws MalformedURLException {
         StringBuilder stringBuilder = new StringBuilder();
         URL url = new URL(textUrl);
+
         try (Scanner scanner = new Scanner(url.openStream())) {
-            while (scanner.hasNext()) {
-                stringBuilder.append(scanner.next());
-                stringBuilder.append(" ");
+            Pattern pattern = Pattern.compile(regexSentense);
+            while (scanner.hasNext(pattern)) {
+                System.out.println(scanner.next(pattern));
+
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -45,6 +51,7 @@ public class SourceReader {
         }
         return stringBuilder.toString();
     }
+
 
     public String getTextV1() throws MalformedURLException {
         StringBuilder stringBuilder = new StringBuilder();
@@ -62,10 +69,12 @@ public class SourceReader {
         return stringBuilder.toString();
     }
 
+
     public String getTextUrl() {
         int random = new Random().nextInt(10000) + 1;
         return urlTemplate + random + "/" + random + ".txt";
     }
+
 
     public String getTextUrl(int num) {
         return urlTemplate + num + "/" + num + ".txt";
