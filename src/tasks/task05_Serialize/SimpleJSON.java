@@ -1,4 +1,4 @@
-package tasks.task_05_Serialize;
+package tasks.task05_Serialize;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

@@ -1,4 +1,4 @@
-package tasks.task_05_Serialize;
+package tasks.task05_Serialize;
 
 /**
  * Created on 25.01.19.
