@@ -21,7 +21,7 @@ public class Processor {
     }
 
     public void getOccurrences(String[] sources, String[] words, String res) {
-        Loger.i("<started>");
+        Loger.i("< started >");
         long inTime = System.currentTimeMillis();
 
         for (String source : sources) {
@@ -35,8 +35,8 @@ public class Processor {
             for (Future<String> future : futures) {
                 saver.writeFile(future.get());
             }
-            Loger.i("<end>");
-            Loger.i("<all occurrences: " + Worker.count + " >");
+            Loger.i("< end >");
+            Loger.i("< all occurrences: " + Worker.count + " >");
             executorSrv.shutdown();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException();
