@@ -7,7 +7,20 @@ package tasks.task05_reflection;
  * @version 1.0
  */
 public class Person {
-    public String name;
+    public final String name;
     public String phone;
     public float salary;
+    public boolean man;
+
+
+    public Person(String name, String phone, float salary, boolean man) {
+        this.name = name;
+        this.phone = phone;
+        this.salary = salary;
+        this.man = man;
+    }
+
+    public void printName() {
+        System.out.println(name);
+    }
 }
