@@ -44,6 +44,7 @@ public class Processor {
             e.printStackTrace();
         }
 
-        Loger.i("time: " + (System.currentTimeMillis() - inTime) / 1000.0 + " sec");
+        double time = (System.currentTimeMillis() - inTime) / 1000.0;
+        Loger.i(String.format("time: %s", time > 60 ? (time / 60) + " min" : time + " sec"));
     }
 }
