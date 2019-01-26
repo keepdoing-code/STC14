@@ -20,7 +20,10 @@ public class Person {
         this.man = man;
     }
 
-    public void printName() {
-        System.out.println(name);
+    public static void main(String[] args) throws Exception {
+        String fileName = "person.json.txt";
+        Person person = new Person("Yuri", "null", 5000f, true);
+
+        System.out.println(new JSONConv().toJSON(person));
     }
 }
