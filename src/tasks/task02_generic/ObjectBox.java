@@ -1,7 +1,7 @@
 package tasks.task02_generic;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 
 /**
@@ -10,7 +10,7 @@ import java.util.Iterator;
  */
 
 public class ObjectBox<T> {
-    protected Collection<T> values = new ArrayList<>();
+    protected Collection<T> values = new HashSet<>();
 
     public void addObject(T o) {
         values.add(o);
