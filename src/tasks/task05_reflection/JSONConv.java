@@ -44,9 +44,7 @@ public class JSONConv {
                 String value = pairs.get(f.getName());
                 String type = f.getType().getName();
 
-                PrimeEnum e = PrimeEnum.get(type);
-
-                switch (e) {
+                switch (isPrimitive.get(type)) {
                     case CHAR:
                         f.setChar(obj, value.charAt(0));
                         break;
@@ -107,7 +105,6 @@ public class JSONConv {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-
         return json.toString();
     }
 
@@ -160,7 +157,7 @@ public class JSONConv {
 
 
     private String combine(String name, String value, String type) {
-        if (("null".equals(value) || (value == null) || PrimeEnum.contains(type))) {
+        if (("null".equals(value) || (value == null) || isPrimitive.contains(type))) {
             return "\"" + name + "\":" + value;
         }
         return "\"" + name + "\":\"" + value + "\"";
@@ -181,7 +178,7 @@ public class JSONConv {
     }
 
 
-    public enum PrimeEnum {
+    enum isPrimitive {
         BOOLEAN(boolean.class.getName()),
         CHAR(char.class.getName()),
         BYTE(byte.class.getName()),
@@ -194,19 +191,19 @@ public class JSONConv {
 
         private String type;
 
-        PrimeEnum(String type) {
+        isPrimitive(String type) {
             this.type = type;
         }
 
-        public static PrimeEnum get(String type) {
-            for (PrimeEnum p : PrimeEnum.values()) {
+        public static isPrimitive get(String type) {
+            for (isPrimitive p : isPrimitive.values()) {
                 if (p.type.equals(type)) return p;
             }
             return OTHER;
         }
 
         public static boolean contains(String type) {
-            return PrimeEnum.get(type) != OTHER;
+            return isPrimitive.get(type) != OTHER;
         }
     }
 }
