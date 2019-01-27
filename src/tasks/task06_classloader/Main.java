@@ -1,4 +1,4 @@
-package tasks.task06;
+package tasks.task06_classloader;
 
 /**
  * Created on 27/01/19.
