@@ -13,23 +13,6 @@ public class Person {
     public float salary;
     public boolean man;
 
-    public static void main(String[] args) throws Exception {
-        String fileName = "person.json.txt";
-
-        Person person = new Person()
-                .setMan(true)
-                .setPhone("+79110001122")
-                .setSalary(6000f)
-                .setName("John");
-
-        JSONConv json = new JSONConv();
-        json.toFile(fileName, person);
-        System.out.println("before: \r\n" + json.toString(person));
-
-        Person a = (Person) json.fromFile(fileName);
-        System.out.println("after: \r\n" + json.toString(a));
-    }
-
     public Person setName(String name) {
         this.name = name;
         return this;
