@@ -17,35 +17,39 @@ public class Client {
     private BufferedReader in;
     private PrintWriter out;
     private Socket socket;
+    private int port;
 
-    public Client() {
+    public Client(int port) {
+        this.port = port;
         Scanner scan = new Scanner(System.in);
+        System.out.println("Print \"exit\" when you want to exit\r\nEnter your name:");
+        String helloMsg = scan.nextLine();
 
         try {
-            socket = new Socket("127.0.0.1", 12345);
+            socket = new Socket("127.0.0.1", port);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
 
-            System.out.println("Print \"exit\" when you want to exit");
-            System.out.println("Enter your name:");
-            out.println(scan.nextLine());
-            Resend resend = new Resend();
-            resend.start();
+            out.println(helloMsg);
+            Receiver receiver = new Receiver();
+            receiver.start();
             String str = "";
+
             while (!str.equals("exit")) {
                 str = scan.nextLine();
                 out.println(str);
             }
-            resend.setStop();
+            receiver.setStop();
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            System.out.println("< error connection >");
         } finally {
             close();
         }
     }
 
     public static void main(String[] args) {
-        Client cl = new Client();
+        Client cl = new Client(3777);
     }
 
     private void close() {
@@ -59,8 +63,7 @@ public class Client {
     }
 
 
-    private class Resend extends Thread {
-
+    private class Receiver extends Thread {
         private boolean stop;
 
         public void setStop() {
@@ -72,6 +75,12 @@ public class Client {
             try {
                 while (!stop) {
                     String str = in.readLine();
+                    if (str == null) {
+                        System.out.println("< server disconnected >");
+                        Client.this.close();
+                        System.exit(0);
+                        break;
+                    }
                     System.out.println(str);
                 }
             } catch (IOException e) {

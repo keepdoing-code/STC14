@@ -1,5 +1,7 @@
 package tasks.task07_net;
 
+import tasks.task04_concurrency.Loger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,39 +20,45 @@ import java.util.List;
  * @version 1.0
  */
 public class Server {
-
     private ServerSocket server;
-    private List<Connection> connections =
-            Collections.synchronizedList(new ArrayList<>());
+    private int port;
+    private List<Connection> connections = Collections.synchronizedList(new ArrayList<>());
 
-    public Server() {
+
+    public Server(int port) {
+        this.port = port;
         try {
-            server = new ServerSocket(12345);
+            Loger.i("starting server");
+            server = new ServerSocket(port);
+            Loger.i("waiting clients");
 
             while (true) {
                 Socket socket = server.accept();
-                Connection con = new Connection(socket);
-                connections.add(con);
-                con.start();
+                Connection connection = new Connection(socket);
+                connections.add(connection);
+                connection.start();
+                Loger.i("client connected");
             }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            closeAll();
+            if (!connections.isEmpty()) {
+                closeAll();
+            }
         }
     }
 
     public static void main(String[] args) {
-        Server srv = new Server();
+        Server srv = new Server(3777);
     }
 
     private void closeAll() {
         try {
             server.close();
             synchronized (connections) {
-                Iterator<Connection> iter = connections.iterator();
-                while (iter.hasNext()) {
-                    (iter.next()).close();
+                Iterator<Connection> iterator = connections.iterator();
+                while (iterator.hasNext()) {
+                    (iterator.next()).close();
                 }
             }
         } catch (Exception e) {
@@ -58,23 +66,34 @@ public class Server {
         }
     }
 
+
     private class Connection extends Thread {
         private BufferedReader in;
         private PrintWriter out;
         private Socket socket;
         private String name = "";
 
+
         public Connection(Socket socket) {
             this.socket = socket;
-
             try {
-                in = new BufferedReader(new InputStreamReader(
-                        socket.getInputStream()));
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
-
             } catch (IOException e) {
                 e.printStackTrace();
                 close();
+            }
+        }
+
+
+        public void broadcastMessage(String msg) {
+            Loger.i(msg);
+            msg = "< " + msg + " >";
+            synchronized (connections) {
+                Iterator<Connection> iterator = connections.iterator();
+                while (iterator.hasNext()) {
+                    (iterator.next()).out.println(msg);
+                }
             }
         }
 
@@ -83,38 +102,24 @@ public class Server {
         public void run() {
             try {
                 name = in.readLine();
-                synchronized (connections) {
-                    Iterator<Connection> iter = connections.iterator();
-                    while (iter.hasNext()) {
-                        (iter.next()).out.println(name + " connected.");
-                    }
-                }
+                broadcastMessage(name + " connected");
 
-                String str = "";
                 while (true) {
-                    str = in.readLine();
-                    if (str.equals("exit")) break;
 
-                    synchronized (connections) {
-                        Iterator<Connection> iter = connections.iterator();
-                        while (iter.hasNext()) {
-                            (iter.next()).out.println(name + ": " + str);
-                        }
+                    String str = in.readLine();
+                    if ("exit".equals(str) || (str == null)) {
+                        break;
                     }
+                    broadcastMessage(name + ": " + str);
                 }
-
-                synchronized (connections) {
-                    Iterator<Connection> iter = connections.iterator();
-                    while (iter.hasNext()) {
-                        (iter.next()).out.println(name + " has left");
-                    }
-                }
+                broadcastMessage(name + " - has left");
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
                 close();
             }
         }
+
 
         public void close() {
             try {
