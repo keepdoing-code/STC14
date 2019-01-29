@@ -54,7 +54,7 @@ public class Server {
                 }
             }
         } catch (Exception e) {
-            System.err.println("Потоки не были закрыты!");
+            System.err.println("Threads are not closed");
         }
     }
 
@@ -86,7 +86,7 @@ public class Server {
                 synchronized (connections) {
                     Iterator<Connection> iter = connections.iterator();
                     while (iter.hasNext()) {
-                        (iter.next()).out.println(name + " присоединился");
+                        (iter.next()).out.println(name + " connected.");
                     }
                 }
 
@@ -128,7 +128,7 @@ public class Server {
                     System.exit(0);
                 }
             } catch (Exception e) {
-                System.err.println("Потоки не были закрыты!");
+                System.err.println("Threads are not closed");
             }
         }
     }

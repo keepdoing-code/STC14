@@ -26,7 +26,8 @@ public class Client {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
 
-            System.out.println("Текст:");
+            System.out.println("Print \"exit\" when you want to exit");
+            System.out.println("Enter your name:");
             out.println(scan.nextLine());
             Resend resend = new Resend();
             resend.start();
@@ -53,7 +54,7 @@ public class Client {
             out.close();
             socket.close();
         } catch (Exception e) {
-            System.err.println("Потоки не были закрыты!");
+            System.err.println("Threads are not closed");
         }
     }
 
@@ -74,7 +75,7 @@ public class Client {
                     System.out.println(str);
                 }
             } catch (IOException e) {
-                System.err.println("Ошибка при получении сообщения.");
+                System.err.println("Error receiving message");
                 e.printStackTrace();
             }
         }
