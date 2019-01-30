@@ -1,4 +1,4 @@
-package tasks.task09;
+package tasks.task09_jvm_jit_gc;
 
 /**
  * Created on 30/01/19.
