@@ -29,6 +29,9 @@ public class Sorter {
         ISortAlgorithmStream bubble = new BubbleSortAlgorithmStreamStream();
         sortedArray = bubble.sort(randomArray);
         printArray("Sorted by bubble sort: ", sortedArray);
+
+        System.out.println("\r\nGenerate and sort array of 20 integers:");
+        Stream.generate(() -> new Random().nextInt(100)).limit(20).sorted().map((a) -> a + " ").forEach(System.out::print);
     }
 
     /**
