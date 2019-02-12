@@ -38,7 +38,7 @@ public class Dictionary {
     public boolean getOccurrence(String[] another) {
         for (String str : another) {
             if (this.dictionary.contains(str.toLowerCase())) {
-                log.info("found: ", str);
+                log.info("found: {}", str);
                 return true;
             }
         }

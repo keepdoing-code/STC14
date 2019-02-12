@@ -16,35 +16,30 @@ public class ResourceLoader {
     private String source = "";
     private List<String> list = new ArrayList<>();
 
-
     public ResourceLoader(String source) {
         this.source = source;
     }
 
-
-    public List<String> get() {
+    public List<String> get() throws IOException {
         if (list.size() > 0) {
             return list;
         }
 
         if (source.toLowerCase().startsWith("http") || source.toLowerCase().startsWith("ftp")) {
-            try (InputStream stream = new URL(source).openStream()) {
-                return getData(stream);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            InputStream stream = new URL(source).openStream();
+            getData(stream);
+            stream.close();
+            return list;
         }
 
-        try (InputStream stream = new FileInputStream(source)) {
-            return getData(stream);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        InputStream stream = new FileInputStream(source);
+        getData(stream);
+        stream.close();
+        return list;
     }
 
 
-    private List<String> getData(InputStream stream) {
+    public List<String> getData(InputStream stream) {
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(stream))) {
 
@@ -57,7 +52,7 @@ public class ResourceLoader {
                 }
                 sentence.append((char) symbol);
                 if ((symbol == '?') || (symbol == '.') || (symbol == '!')) {
-                    list.add(sentence.toString().trim());
+                    list.add(sentence.toString().replaceAll("\\ +", " ").trim());
                     sentence = new StringBuilder();
                 }
             }

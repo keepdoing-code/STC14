@@ -3,9 +3,8 @@ package tasks.task14_junit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 
 /**
  * Created on 23.01.19.
@@ -15,16 +14,14 @@ import java.io.IOException;
  */
 public class ResultSaver implements AutoCloseable {
     private final static Logger log = LoggerFactory.getLogger(Dictionary.class);
-    private BufferedWriter writer;
+    private Writer writer;
 
-    public ResultSaver(String filename) throws IOException {
-        writer = new BufferedWriter(new FileWriter(filename));
+    public ResultSaver(Writer bufferedWriter) throws IOException {
+        writer = bufferedWriter;
         writer.write("");
         writer.flush();
         writer.close();
-
-        writer = new BufferedWriter(new FileWriter(filename));
-
+        writer = bufferedWriter;
     }
 
     public synchronized void writeFile(String data) throws IOException {

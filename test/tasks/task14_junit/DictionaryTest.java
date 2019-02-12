@@ -14,7 +14,11 @@ import static org.junit.Assert.assertTrue;
  */
 public class DictionaryTest {
 
-
+    /**
+     * Test sentence to words split
+     *
+     * @throws Exception
+     */
     @Test
     public void testGet() throws Exception {
         Dictionary dictionary = new Dictionary();
@@ -23,10 +27,14 @@ public class DictionaryTest {
         assertTrue(Arrays.asList(array).containsAll(Arrays.asList("sentence", "test", "this", "is")));
     }
 
+    /**
+     * Test get occurrence
+     * @throws Exception
+     */
     @Test
     public void testGetOccurrence() throws Exception {
         Dictionary dictionary = new Dictionary();
         dictionary.fill("This is!   test, \r\n  sentence.");
-        assertTrue(dictionary.getOccurrence(new String[]{"is", "test"}));
+        assertTrue(dictionary.getOccurrence(new String[]{"test"}));
     }
 }

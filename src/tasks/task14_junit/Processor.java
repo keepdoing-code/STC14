@@ -3,6 +3,8 @@ package tasks.task14_junit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -36,7 +38,7 @@ public class Processor {
         }
 
 
-        try (ResultSaver saver = new ResultSaver(res)) {
+        try (ResultSaver saver = new ResultSaver(new BufferedWriter(new FileWriter(res)))) {
             for (Future<String> future : futures) {
                 saver.writeFile(future.get());
             }
